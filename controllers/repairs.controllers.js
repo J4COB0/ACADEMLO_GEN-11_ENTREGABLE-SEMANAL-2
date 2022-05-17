@@ -1,16 +1,19 @@
+// Utils
+const { catchAsync } = require('../utils/catchAsync');
+
 // Models
 const { Repair } = require('../models/repair.model');
 
-const getAllPendings = async (req, res) => {
+const getAllPendings = catchAsync(async (req, res) => {
     const pendings = await Repair.findAll({ where: { status: 'pending' } });
 
     res.status(200).json({
         status: 'success',
         pendings
     });
-};
+});
 
-const getPendingById = async (req, res) => {
+const getPendingById = catchAsync(async (req, res) => {
     const { pending } = req;
 
     res.status(200).json({
@@ -19,9 +22,9 @@ const getPendingById = async (req, res) => {
             pending
         }
     });
-};
+});
 
-const createAppointment = async (req, res) => {
+const createAppointment = catchAsync(async (req, res) => {
     const { date, computerNumber, comments, userId } = req.body;
 
     const newAppointment = await Repair.create({
@@ -37,9 +40,9 @@ const createAppointment = async (req, res) => {
             newAppointment
         }
     });
-};
+});
 
-const updateAppointment = async (req, res) => {
+const updateAppointment = catchAsync(async (req, res) => {
     const { pending } = req;
 
     await pending.update({ status: 'completed' });
@@ -47,9 +50,9 @@ const updateAppointment = async (req, res) => {
     res.status(204).json({
         status: 'success'
     });
-};
+});
 
-const canceldAppointment = async (req, res) => {
+const canceldAppointment = catchAsync(async (req, res) => {
     const { pending } = req;
 
     await pending.update({ status: 'cancelled' });
@@ -57,7 +60,7 @@ const canceldAppointment = async (req, res) => {
     res.status(200).json({
         status: 'success'
     });
-};
+});
 
 module.exports = {
     getAllPendings,
